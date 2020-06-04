@@ -11,9 +11,9 @@ import MapKit
 import CoreLocation
 
 struct ContentView: View {
-    let rd = RetrieveData();
+    
     @ObservedObject var locationManager = LocationManager();
-    @State private var imageName : String = "";
+    let rd = RetrieveData();
     
   //  @State private var imageName2 : String = "light-rain";
     init() {
@@ -21,8 +21,6 @@ struct ContentView: View {
         print(locationManager.getLon())
         rd.getCurrent(lat: locationManager.getLat(), lon: locationManager.getLon())
         rd.getForecast(lat: locationManager.getLat(), lon: locationManager.getLon())
-        imageName = "scattered-clouds"
-        
     }
     
     var body: some View {
@@ -38,26 +36,30 @@ struct ContentView: View {
          
             VStack(alignment: .center){
                 HStack{
-                    Text("Later: " + rd.getFutureTemp(hours: 0)); ForecastImage(imageName: self.$imageName)
+                    Text("Later: " + rd.getFutureTemp(hours: 0));
+                    Image(rd.getFutureForecast(hours:0)).resizable()
+                    .frame(width: 50, height: 50).clipShape(Circle())
                 }
                
                 HStack {
-                    Text("Tomorrow: " + rd.getFutureTemp(hours:6))/*; ForecastImage(imageName2: self.$imageName2)*/
-                }
-                HStack {
-                    Text("In Two Days: " + rd.getFutureTemp(hours: 14)); Image("scattered-clouds").resizable()
+                    Text("Tomorrow: " + rd.getFutureTemp(hours:6));
+                    Image(rd.getFutureForecast(hours:6)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
                 HStack {
-                    Text("In Three Days: " + rd.getFutureTemp(hours: 22)); Image("scattered-clouds").resizable()
+                    Text("In Two Days: " + rd.getFutureTemp(hours: 14)); Image(rd.getFutureForecast(hours:14)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
                 HStack {
-                    Text("In Four Days: " + rd.getFutureTemp(hours: 30)); Image("scattered-clouds").resizable()
+                    Text("In Three Days: " + rd.getFutureTemp(hours: 22)); Image(rd.getFutureForecast(hours:22)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
                 HStack {
-                    Text("In Five Days: " + rd.getFutureTemp(hours: 38)); Image("scattered-clouds").resizable()
+                    Text("In Four Days: " + rd.getFutureTemp(hours: 30)); Image(rd.getFutureForecast(hours:30)).resizable()
+                    .frame(width: 50, height: 50).clipShape(Circle())
+                }
+                HStack {
+                    Text("In Five Days: " + rd.getFutureTemp(hours: 38)); Image(rd.getFutureForecast(hours:38)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
                 

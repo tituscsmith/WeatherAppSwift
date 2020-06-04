@@ -112,7 +112,9 @@ class RetrieveData{
         return String(self.f.list[hours].main.feels_like);
     }
     public func getFutureForecast(hours: Int)->String{
-        return String(self.f.list[hours].weather.description);
+        print(String(self.f.list[hours].weather[0].description))
+        return String(self.f.list[hours].weather[0].description);
     }
+    
     
 }
