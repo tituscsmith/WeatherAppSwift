@@ -14,4 +14,5 @@ struct Sys: Codable{
     var country:String? = ""
     var sunrise:Int? = 0
     var sunset:Int? = 0
+    var pod:String? = ""
 }
