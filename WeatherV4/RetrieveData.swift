@@ -111,8 +111,8 @@ class RetrieveData{
     public func getCurrentIcon()->String{
         return self.c.weather[0].icon
     }
-    public func getFutureTemp(hours: Int)->String{
-        return String(self.f.list[hours].main.feels_like);
+    public func getFutureTemp(hours: Int)->Main{
+        return self.f.list[hours].main;
     }
     public func getFutureForecast(hours: Int)->String{
         print(self.f.list[hours].weather[0].icon)

@@ -38,34 +38,63 @@ struct ContentView: View {
          
             VStack(alignment: .center){
                 HStack{
-                    Text("Later: " + rd.getFutureTemp(hours: 0));
+                    Text("Later:")
+                    VStack {
+                        Text("Low " + String(rd.getFutureTemp(hours: 0).temp_min))
+                        Text("High: " + String(rd.getFutureTemp(hours: 0).temp_max));
+                    }
+                    
                     Image(rd.getFutureForecast(hours:0)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
                
                 HStack {
-                    Text("Tomorrow: " + rd.getFutureTemp(hours:6));
+                   Text("Tomorrow:")
+                   VStack {
+                       Text("Low " + String(rd.getFutureTemp(hours: 6).temp_min))
+                       Text("High: " + String(rd.getFutureTemp(hours: 6).temp_max));
+                   }
                     Image(rd.getFutureForecast(hours:6)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
                 HStack {
-                    Text("In Two Days: " + rd.getFutureTemp(hours: 14)); Image(rd.getFutureForecast(hours:14)).resizable()
+                    Text("Two Days:")
+                    VStack {
+                        Text("Low " + String(rd.getFutureTemp(hours: 14).temp_min))
+                        Text("High: " + String(rd.getFutureTemp(hours: 14).temp_max));
+                    }
+                    Image(rd.getFutureForecast(hours:14)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
                 HStack {
-                    Text("In Three Days: " + rd.getFutureTemp(hours: 22)); Image(rd.getFutureForecast(hours:22)).resizable()
+                   Text("Three Days:")
+                   VStack {
+                       Text("Low " + String(rd.getFutureTemp(hours: 22).temp_min))
+                       Text("High: " + String(rd.getFutureTemp(hours: 22).temp_max));
+                   }
+                    Image(rd.getFutureForecast(hours:22)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
                 HStack {
-                    Text("In Four Days: " + rd.getFutureTemp(hours: 30)); Image(rd.getFutureForecast(hours:30)).resizable()
+                 Text("Four Days:")
+                 VStack {
+                     Text("Low " + String(rd.getFutureTemp(hours: 30).temp_min))
+                     Text("High: " + String(rd.getFutureTemp(hours: 30).temp_max));
+                 }
+                    Image(rd.getFutureForecast(hours:30)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
                 HStack {
-                    Text("In Five Days: " + rd.getFutureTemp(hours: 38)); Image(rd.getFutureForecast(hours:38)).resizable()
+                 Text("Five Days:")
+                 VStack {
+                     Text("Low " + String(rd.getFutureTemp(hours: 38).temp_min))
+                     Text("High: " + String(rd.getFutureTemp(hours: 38).temp_max));
+                 }
+                    Image(rd.getFutureForecast(hours:38)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
                 
-            }.padding().font(.title)
+            }.padding().font(.subheadline)
             
         }
     }
