@@ -7,14 +7,23 @@
 //
 
 import SwiftUI
+import MapKit
+import CoreLocation
 
 struct ContentView: View {
-    let rd = RetrieveData()
+    let rd = RetrieveData();
+    @ObservedObject var locationManager = LocationManager()
+
     init() {
-        rd.getJSON()
+        print(locationManager.getLat())
+        print(locationManager.getLon())
+        rd.getJSON(lat: locationManager.getLat(), lon: locationManager.getLon())
     }
+    
     var body: some View {
+        //Check that location doesn't have an error
         VStack(alignment: .center) {
+            
             HStack {
                 Text(rd.getName())
                 Text(rd.getTemp() + "°F")
@@ -28,5 +37,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+        
     }
 }

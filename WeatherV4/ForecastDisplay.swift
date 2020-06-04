@@ -72,7 +72,7 @@ public func getJSON() -> String{
             let decoder = JSONDecoder()
             do{
         
-                let forecast = try decoder.decode(Forecast.self, from: data!)
+                let forecast = try decoder.decode(Current.self, from: data!)
                 print(forecast.main.feels_like)
                 semaphore.signal()
                 x = forecast.main.feels_like

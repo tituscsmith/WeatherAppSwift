@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "0E7E7DFF-15BE-47E4-A55E-52B88136E133"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B4EC4699-7D6E-48AD-8303-B833FC007B4A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherV4/Location.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "locationManager(_:didUpdateLocations:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C5B9BBD5-361C-43BB-A4EE-143390A3A22E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherV4/Location.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "locationManager(_:didUpdateLocations:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "866D0EE0-BC0C-472E-AFBB-3BDBDB82E4A5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherV4/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "29D2B95C-1369-44B0-A1BA-582C36B3768C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherV4/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2167B787-6CC1-4DC1-9857-5D0AE26276D1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherV4/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
+            landmarkName = "ContentView"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "2167B787-6CC1-4DC1-9857-5D0AE26276D1 - 969f8f04c39e568e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of WeatherV4.ContentView.locationManager : WeatherV4.LocationManager"
+                  moduleName = "WeatherV4"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/titus/Desktop/WeatherV4/WeatherV4/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "2167B787-6CC1-4DC1-9857-5D0AE26276D1 - e934fc75852f63e3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherV4.ContentView.locationManager.getter : WeatherV4.LocationManager"
+                  moduleName = "WeatherV4"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/titus/Desktop/WeatherV4/WeatherV4/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "59">
+               </Location>
+               <Location
+                  uuid = "2167B787-6CC1-4DC1-9857-5D0AE26276D1 - c7657d1cebdafb97"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherV4.ContentView.locationManager.setter : WeatherV4.LocationManager"
+                  moduleName = "WeatherV4"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/titus/Desktop/WeatherV4/WeatherV4/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "90">
+               </Location>
+               <Location
+                  uuid = "2167B787-6CC1-4DC1-9857-5D0AE26276D1 - bcc5d8b78994cde0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherV4.ContentView.locationManager.modify : WeatherV4.LocationManager"
+                  moduleName = "WeatherV4"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/titus/Desktop/WeatherV4/WeatherV4/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "14">
+               </Location>
+               <Location
+                  uuid = "2167B787-6CC1-4DC1-9857-5D0AE26276D1 - 3ee43c886a115fb5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherV4.ContentView.locationManager.modify : WeatherV4.LocationManager with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "WeatherV4"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/titus/Desktop/WeatherV4/WeatherV4/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  uuid = "2167B787-6CC1-4DC1-9857-5D0AE26276D1 - de53cbb89b15a5dd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherV4.ContentView.$locationManager.getter : SwiftUI.ObservedObject&lt;WeatherV4.LocationManager&gt;.Wrapper"
+                  moduleName = "WeatherV4"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/titus/Desktop/WeatherV4/WeatherV4/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "101">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1638ACB2-A551-49DA-B275-D1281A831E5F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherV4/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "ContentView"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "1638ACB2-A551-49DA-B275-D1281A831E5F - 969f8f04c39e568e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of WeatherV4.ContentView.locationManager : WeatherV4.LocationManager"
+                  moduleName = "WeatherV4"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/titus/Desktop/WeatherV4/WeatherV4/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "1638ACB2-A551-49DA-B275-D1281A831E5F - e934fc75852f63e3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherV4.ContentView.locationManager.getter : WeatherV4.LocationManager"
+                  moduleName = "WeatherV4"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/titus/Desktop/WeatherV4/WeatherV4/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "59">
+               </Location>
+               <Location
+                  uuid = "1638ACB2-A551-49DA-B275-D1281A831E5F - c7657d1cebdafb97"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherV4.ContentView.locationManager.setter : WeatherV4.LocationManager"
+                  moduleName = "WeatherV4"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/titus/Desktop/WeatherV4/WeatherV4/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "90">
+               </Location>
+               <Location
+                  uuid = "1638ACB2-A551-49DA-B275-D1281A831E5F - bcc5d8b78994cde0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherV4.ContentView.locationManager.modify : WeatherV4.LocationManager"
+                  moduleName = "WeatherV4"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/titus/Desktop/WeatherV4/WeatherV4/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "14">
+               </Location>
+               <Location
+                  uuid = "1638ACB2-A551-49DA-B275-D1281A831E5F - 3ee43c886a115fb5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherV4.ContentView.locationManager.modify : WeatherV4.LocationManager with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "WeatherV4"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/titus/Desktop/WeatherV4/WeatherV4/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  uuid = "1638ACB2-A551-49DA-B275-D1281A831E5F - de53cbb89b15a5dd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherV4.ContentView.$locationManager.getter : SwiftUI.ObservedObject&lt;WeatherV4.LocationManager&gt;.Wrapper"
+                  moduleName = "WeatherV4"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/titus/Desktop/WeatherV4/WeatherV4/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "101">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DBD53028-C3B4-4624-97E3-4D1B80258143"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherV4/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

@@ -15,14 +15,13 @@ class RetrieveData{
     var description = "Blah";
     var main = "Blah";
     var name = "Blah";
- //   var f = Forecast();
-    var f = Forecast();
-public func getJSON(){
-   // var f = Forecast();
-
-  //  var r = tempResponse()
-   // var f = Forecast(coord: nil, weather: [nil, 0, nil, nil], base: nil, main: CFNull, visibility: CFNull, wind: nil, clouds: nil, dt: 0, sys: nil, timezone: 0, id: 0, name: nil, cod: nil)
-    let urlString = "https://api.openweathermap.org/data/2.5/weather?q=Madison,WI,USA&units=imperial&apikey=52ca258860cc9e61d80b63f12f04beba"
+    var f = Current();
+    public func getJSON(lat: String, lon: String){
+        print(lat)
+        print(lon)
+   // let urlString = //"https://api.openweathermap.org/data/2.5/weather?q=Madison,WI,USA&units=imperial&apikey=52ca258860cc9e61d80b63f12f04beba"
+    let urlString =  "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+   // let urlString =    "https://api.openweathermap.org/data/2.5/weather?lat=43.07&lon=-89.43&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
     let url = URL(string: urlString)
     
     guard url != nil else{
@@ -39,7 +38,7 @@ public func getJSON(){
             let decoder = JSONDecoder()
             do{
         
-                let forecast = try decoder.decode(Forecast.self, from: data!)
+                let forecast = try decoder.decode(Current.self, from: data!)
                 print(forecast.main.feels_like)
                 semaphore.signal()
                 x = forecast.main.feels_like
