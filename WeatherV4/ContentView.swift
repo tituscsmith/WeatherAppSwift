@@ -30,6 +30,8 @@ struct ContentView: View {
             HStack {
                 Text(rd.getName())
                 Text(rd.getTemp() + "°F")
+                Image(rd.getCurrentIcon()).resizable()
+                                   .frame(width: 50, height: 50).clipShape(Circle())
             }.font(.title)
             Text(rd.getWindSpeed() + " mph winds")
             Text(rd.getDescription()).font(.subheadline)
