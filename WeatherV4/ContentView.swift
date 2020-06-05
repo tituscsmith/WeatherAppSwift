@@ -27,32 +27,34 @@ struct ContentView: View {
         //Check that location doesn't have an error
         VStack(alignment: .center) {
             
-            HStack {
-                Text(rd.getName())
-                Text(rd.getTemp() + "°F")
+           /* HStack(alignment: .center) {
+               
+                
+            }.font(.largeTitle)*/
+            Text(rd.getName()).font(.largeTitle)
+            Text(rd.getTemp() + "°F").font(.title)
+            HStack(alignment: .center){
+                Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 0).temp.min)))).foregroundColor(.blue);
                 Image(rd.getCurrentIcon()).resizable()
-                                   .frame(width: 50, height: 50).clipShape(Circle())
-            }.font(.largeTitle)
-            HStack{
-                Text("Low " + String(Int(round(rd.getFutureTemp(dayNumber: 0).temp.min))));
-                Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 0).temp.max))));
+                .frame(width: 75, height: 75).clipShape(Circle())
+                Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 0).temp.max)))).foregroundColor(.red);
             }.font(.title)
             Text(rd.getWindSpeed() + " mph winds")
             Text(rd.getDescription()).font(.subheadline)
             
             VStack(alignment: .center){
                 HStack{
-                    Text("Tomorrow:")
+                    Text("Tomorrow:   ")
                     VStack {
                         Text("Low " + String(Int(round(rd.getFutureTemp(dayNumber: 1).temp.min))))
                         Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 1).temp.max))));
                     }
                     Image(rd.getFutureIcon(dayNumber:1)).resizable()
-                    .frame(width: 50, height: 50).clipShape(Circle())
+                        .frame(width: 50, height: 50).clipShape(Circle())
                 }
                
                 HStack {
-                   Text("Two Days:")
+                   Text("Two Days:   ")
                    VStack {
                     
                     Text("Low " + String(Int(round(rd.getFutureTemp(dayNumber: 2).temp.min))))
@@ -71,7 +73,7 @@ struct ContentView: View {
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
                 HStack {
-                    Text("Four Days:")
+                    Text("Four Days: ")
 
                    VStack {
                     Text("Low " + String(Int(round(rd.getFutureTemp(dayNumber: 4).temp.min))))
@@ -81,7 +83,7 @@ struct ContentView: View {
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
                 HStack {
-                    Text("Five Days:")
+                    Text("Five Days:  ")
 
                  VStack {
                     Text("Low " + String(Int(round(rd.getFutureTemp(dayNumber: 5).temp.min))));
@@ -90,8 +92,8 @@ struct ContentView: View {
                     Image(rd.getFutureIcon(dayNumber:5)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
-                HStack {
-                    Text("Six Days:")
+              /*  HStack {
+                    Text("Six Days:    ")
                  VStack {
                     Text("Low " + String(Int(round(rd.getFutureTemp(dayNumber: 6).temp.min))));
                     Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 6).temp.max))));
@@ -99,7 +101,7 @@ struct ContentView: View {
                     Image(rd.getFutureIcon(dayNumber:6)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                 }
-                
+                */
             }.padding().font(.subheadline)
             
         }
