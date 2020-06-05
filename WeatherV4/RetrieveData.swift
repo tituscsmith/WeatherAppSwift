@@ -19,6 +19,7 @@ class RetrieveData{
     var name = "Blah";
     var c = Current();
     var f = Forecast();
+    var d = DailyForecast();
     public func getCurrent(lat: String, lon: String){
         print(lat)
         print(lon)
@@ -60,7 +61,12 @@ class RetrieveData{
     public func getForecast(lat: String, lon: String){
             print(lat)
             print(lon)
-        let urlString =  "https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+       // print("test")
+
+        //For five day forecast
+      //  let urlString =  "https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+        //For one call
+        let urlString = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=imperial&exclude=current,minutely,hourly&appid=52ca258860cc9e61d80b63f12f04beba"
         let url = URL(string: urlString)
         
         guard url != nil else{
@@ -77,10 +83,12 @@ class RetrieveData{
                 let decoder = JSONDecoder()
                 do{
             
-                    let forecast = try decoder.decode(Forecast.self, from: data!)
+                    //let forecast = try decoder.decode(Forecast.self, from: data!)
                  //   print(forecast.main.feels_like)
+                    let dailyForecast = try decoder.decode(DailyForecast.self, from: data!)
+                    self.d = dailyForecast
                     semaphore.signal()
-                    self.f = forecast
+                  //  self.f = forecast
                     
                 }
                 catch let jsonError{
@@ -103,6 +111,7 @@ class RetrieveData{
         return self.c.weather[0].main
     }
     public func getDescription()->String{
+      //  return self.d.daily[0].weather[0].description
         return self.c.weather[0].description
     }
     public func getName()->String{
@@ -111,13 +120,22 @@ class RetrieveData{
     public func getCurrentIcon()->String{
         return self.c.weather[0].icon
     }
-    public func getFutureTemp(hours: Int)->Main{
+    public func getFutureTemp(dayNumber:Int)->Daily{
+        print("test")
+
+        return self.d.daily[dayNumber];
+    }
+    public func getFutureIcon(dayNumber: Int)->String{
+        print("test")
+        return self.d.daily[dayNumber].weather[0].icon
+    }
+   /* public func getFutureTemp(hours: Int)->Main{
         return self.f.list[hours].main;
     }
     public func getFutureForecast(hours: Int)->String{
         print(self.f.list[hours].weather[0].icon)
         return self.f.list[hours].weather[0].icon;
-    }
+    }*/
     
     
 }
