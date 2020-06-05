@@ -52,23 +52,25 @@ struct ContentView: View {
     var body: some View {
         
         //Check that location doesn't have an error
-        VStack(alignment: .center) {
-
+       // VStack(alignment: .center) {
+        ScrollView(.vertical){
+        //    Spacer(minLength: 70)
             Text(rd.getName()).font(.largeTitle)
             Text(rd.getTemp()).font(.title)
-            HStack(alignment: .center){
+            HStack(alignment: .center, spacing: 10){
                 Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 0).temp.min)))).foregroundColor(.blue);
                 Image(rd.getCurrentIcon()).resizable()
                 .frame(width: 75, height: 75).clipShape(Circle())
                 Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 0).temp.max)))).foregroundColor(.red);
-            }.font(.title)
+                }.font(.title)
             if showImperial{
                 Text(rd.getWindSpeed() + " mph winds")}
             else{
                 Text(rd.getWindSpeed() + " kph winds")}
             Text(rd.getDescription()).font(.subheadline)
             
-            VStack(alignment: .center){
+            //VStack(alignment: .center){
+            ScrollView(.horizontal){
                 HStack{
                     Text("Tomorrow:   ")
                     VStack {
@@ -77,6 +79,10 @@ struct ContentView: View {
                     }
                     Image(rd.getFutureIcon(dayNumber:1)).resizable()
                         .frame(width: 50, height: 50).clipShape(Circle())
+                       // Spacer()
+                        Text(String(rd.getFutureTemp(dayNumber: 1).weather[0].description));
+                        
+                    
                 }
                
                 HStack {
@@ -88,6 +94,8 @@ struct ContentView: View {
                    }
                       Image(rd.getFutureIcon(dayNumber:2)).resizable()
                                      .frame(width: 50, height: 50).clipShape(Circle())
+                    Text(String(rd.getFutureTemp(dayNumber: 2).weather[0].description));
+
                 }
                 HStack {
                     Text("Three Days:")
@@ -97,6 +105,9 @@ struct ContentView: View {
                     }
                     Image(rd.getFutureIcon(dayNumber:3)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
+                    
+                    Text(String(rd.getFutureTemp(dayNumber: 3).weather[0].description));
+
                 }
                 HStack {
                     Text("Four Days: ")
@@ -107,6 +118,8 @@ struct ContentView: View {
                    }
                     Image(rd.getFutureIcon(dayNumber:4)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
+                    
+                    Text(String(rd.getFutureTemp(dayNumber: 4).weather[0].description));
                 }
                 HStack {
                     Text("Five Days:  ")
@@ -117,22 +130,15 @@ struct ContentView: View {
                  }
                     Image(rd.getFutureIcon(dayNumber:5)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
+                    
+                    Text(String(rd.getFutureTemp(dayNumber: 5).weather[0].description));
+
                 }
-              /*  HStack {
-                    Text("Six Days:    ")
-                 VStack {
-                    Text("Low " + String(Int(round(rd.getFutureTemp(dayNumber: 6).temp.min))));
-                    Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 6).temp.max))));
-                 }
-                    Image(rd.getFutureIcon(dayNumber:6)).resizable()
-                    .frame(width: 50, height: 50).clipShape(Circle())
-                }
-                */
             }.padding().font(.subheadline)
             
             Toggle(isOn: $showImperial) {
                 Text("Fahrenheit")
-            }.frame(width: 150).padding()
+                }.frame(width: 150).padding()
             if showImperial {
                 //Fake text methods to change the scales
                 Text("\(self.changeScale())").hidden().frame(width: 0, height: 0)
