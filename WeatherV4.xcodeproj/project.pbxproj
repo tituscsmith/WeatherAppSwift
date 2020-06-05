@@ -30,6 +30,7 @@
 		758B6E262487DD8C00734EB9 /* ForecastDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758B6E252487DD8C00734EB9 /* ForecastDisplay.swift */; };
 		758B6E282487EED200734EB9 /* RetrieveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758B6E272487EED200734EB9 /* RetrieveData.swift */; };
 		759C7E252488993D00AC216C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759C7E242488993D00AC216C /* LocationManager.swift */; };
+		75E4FA02248AA28F00751860 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E4FA01248AA28F00751860 /* SearchBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		758B6E252487DD8C00734EB9 /* ForecastDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDisplay.swift; sourceTree = "<group>"; };
 		758B6E272487EED200734EB9 /* RetrieveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrieveData.swift; sourceTree = "<group>"; };
 		759C7E242488993D00AC216C /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		75E4FA01248AA28F00751860 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				75599BBB2486E87000CB9153 /* AppDelegate.swift */,
 				75599BBD2486E87000CB9153 /* SceneDelegate.swift */,
 				75599BBF2486E87000CB9153 /* ContentView.swift */,
+				75E4FA01248AA28F00751860 /* SearchBar.swift */,
 				759C7E242488993D00AC216C /* LocationManager.swift */,
 				758B6E272487EED200734EB9 /* RetrieveData.swift */,
 				753ED6182489B75200A797AB /* Daily.swift */,
@@ -203,6 +206,7 @@
 				753ED61B2489B80900A797AB /* DailyForecast.swift in Sources */,
 				7500ECFC248969C700B81D11 /* Forecast.swift in Sources */,
 				753ED61D2489B8C900A797AB /* Temp.swift in Sources */,
+				75E4FA02248AA28F00751860 /* SearchBar.swift in Sources */,
 				750E642D2488080B00A064FA /* Coords.swift in Sources */,
 				75599BBE2486E87000CB9153 /* SceneDelegate.swift in Sources */,
 				750E64312488080B00A064FA /* Weather.swift in Sources */,

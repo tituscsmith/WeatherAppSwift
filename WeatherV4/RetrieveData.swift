@@ -20,11 +20,16 @@ class RetrieveData{
     var c = Current();
     var f = Forecast();
     var d = DailyForecast();
-    public func getCurrent(lat: String, lon: String){
-        print(lat)
-        print(lon)
-   // let urlString = //"https://api.openweathermap.org/data/2.5/weather?q=Madison,WI,USA&units=imperial&apikey=52ca258860cc9e61d80b63f12f04beba"
-    let urlString =  "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+    public func getCurrent(lat: String, lon: String, isF: Bool){
+   print("getCurrent called" + String(isF))
+   /* let urlString = "https://api.openweathermap.org/data/2.5/weather?q=Madison,WI,USA&units=imperial&apikey=52ca258860cc9e61d80b63f12f04beba"*/
+        var urlString:String = ""
+        if(isF){
+            urlString =  "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+        }
+        else{
+            urlString =  "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=metric&appid=52ca258860cc9e61d80b63f12f04beba"
+        }
    // let urlString =    "https://api.openweathermap.org/data/2.5/weather?lat=43.07&lon=-89.43&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
     let url = URL(string: urlString)
     
@@ -58,15 +63,21 @@ class RetrieveData{
     dataTask.resume()
     semaphore.wait()//wait for networking session
 }
-    public func getForecast(lat: String, lon: String){
-            print(lat)
-            print(lon)
-       // print("test")
+    public func getForecast(lat: String, lon: String, isF: Bool){
+        print("getForeCast called" + lat + " " + lon)
 
         //For five day forecast
       //  let urlString =  "https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
         //For one call
-        let urlString = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=imperial&exclude=current,minutely,hourly&appid=52ca258860cc9e61d80b63f12f04beba"
+        var urlString = ""
+        if(isF){
+            print("GOT IMPERIAL DATA")
+            urlString = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=imperial&exclude=current,minutely,hourly&appid=52ca258860cc9e61d80b63f12f04beba"
+        }
+        else{
+            print("GOT METRIC DATA")
+             urlString = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=metric&exclude=current,minutely,hourly&appid=52ca258860cc9e61d80b63f12f04beba"
+        }
         let url = URL(string: urlString)
         
         guard url != nil else{
@@ -121,12 +132,12 @@ class RetrieveData{
         return self.c.weather[0].icon
     }
     public func getFutureTemp(dayNumber:Int)->Daily{
-        print("test")
-
+     /*   if(self.d.daily===nil){
+            return 0
+        }*/
         return self.d.daily[dayNumber];
     }
     public func getFutureIcon(dayNumber: Int)->String{
-        print("test")
         return self.d.daily[dayNumber].weather[0].icon
     }
    /* public func getFutureTemp(hours: Int)->Main{
