@@ -9,7 +9,7 @@
 import Foundation
 
 struct Daily: Codable{
-    var dt:Double? = 0
+    var dt:Double = 0
     var sunrise:Int? = 0
     var sunset:Int? = 0
     var temp:Temp
@@ -21,7 +21,8 @@ struct Daily: Codable{
     var wind_deg:Double? = 0
     var weather:[Weather]
     var clouds:Int = 0
-    var uvi:Double = 0
+    var rain:Double? = 0
+    var uvi:Double? = 0
     
     init(){
         self.weather = [Weather]()

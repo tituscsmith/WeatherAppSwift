@@ -12,7 +12,7 @@ struct Sys: Codable{
     var type:Int? = 0
     var id:Int? = 0
     var country:String? = ""
-    var sunrise:Int? = 0
-    var sunset:Int? = 0
+    var sunrise:Double = 0
+    var sunset:Double = 0
     var pod:String? = ""
 }

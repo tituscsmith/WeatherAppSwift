@@ -20,17 +20,33 @@ class RetrieveData{
     var c = Current();
     var f = Forecast();
     var d = DailyForecast();
-    public func getCurrent(lat: String, lon: String, isF: Bool){
-   print("getCurrent called" + String(isF))
-   /* let urlString = "https://api.openweathermap.org/data/2.5/weather?q=Madison,WI,USA&units=imperial&apikey=52ca258860cc9e61d80b63f12f04beba"*/
+  //  var state: Bool = false;
+    public func getCurrent(lat: String, lon: String, isF: Bool, city: String){
         var urlString:String = ""
-        if(isF){
-            urlString =  "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+        if(city == ""){
+            
+            if(isF){
+                urlString =  "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+            }
+            else{
+                urlString =  "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=metric&appid=52ca258860cc9e61d80b63f12f04beba"
+            }
         }
         else{
-            urlString =  "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=metric&appid=52ca258860cc9e61d80b63f12f04beba"
+
+            if(isF){
+                urlString =  "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+            }
+            else{
+                urlString =  "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=52ca258860cc9e61d80b63f12f04beba"
+            }
+
         }
-   // let urlString =    "https://api.openweathermap.org/data/2.5/weather?lat=43.07&lon=-89.43&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+        
+      //  state = isF
+        print("getCurrent called" + city)
+        
+        
     let url = URL(string: urlString)
     
     guard url != nil else{
@@ -63,13 +79,32 @@ class RetrieveData{
     dataTask.resume()
     semaphore.wait()//wait for networking session
 }
-    public func getForecast(lat: String, lon: String, isF: Bool){
+    public func getForecast(lat: String, lon: String, isF: Bool, city: String){
+       var urlString:String = ""
+     //  if(city == ""){
+        print("Retrieving forecast")
+           if(isF){
+            
+               urlString =  "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+           }
+           else{
+               urlString =  "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=metric&appid=52ca258860cc9e61d80b63f12f04beba"
+           }
+     //  }
+   /*    else{
+           if(isF){
+               urlString =  "https://api.openweathermap.org/data/2.5/onecall?q=" + city + "&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+           }
+           else{
+               urlString =  "https://api.openweathermap.org/data/2.5/onecall?q=" + city + "&units=metric&appid=52ca258860cc9e61d80b63f12f04beba"
+           }
+       }*/
         print("getForeCast called" + lat + " " + lon)
 
         //For five day forecast
       //  let urlString =  "https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
         //For one call
-        var urlString = ""
+     /*   var urlString = ""
         if(isF){
             print("GOT IMPERIAL DATA")
             urlString = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=imperial&exclude=current,minutely,hourly&appid=52ca258860cc9e61d80b63f12f04beba"
@@ -77,7 +112,7 @@ class RetrieveData{
         else{
             print("GOT METRIC DATA")
              urlString = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=metric&exclude=current,minutely,hourly&appid=52ca258860cc9e61d80b63f12f04beba"
-        }
+        }*/
         let url = URL(string: urlString)
         
         guard url != nil else{
@@ -113,21 +148,31 @@ class RetrieveData{
         semaphore.wait()//wait for networking session
     }
     public func getTemp() ->String{
+        return String(self.c.main.temp)
+    }
+    public func getFeelsLike() ->String{
         return String(self.c.main.feels_like)
     }
-    public func getWindSpeed() ->String{
-        return String(self.c.wind.speed)
+    public func getWind() -> Wind{
+        return self.c.wind
+    }
+    public func getHumidity() ->String{
+        return String(self.c.main.humidity)
     }
     public func getMain()->String{
         return self.c.weather[0].main
+    }
+    public func getCurrent()->Current{
+     //   print("City: " + self.c.name)
+        return self.c
     }
     public func getDescription()->String{
       //  return self.d.daily[0].weather[0].description
         return self.c.weather[0].description
     }
-    public func getName()->String{
+   /* public func getName()->String{
         return self.c.name
-    }
+    }*/
     public func getCurrentIcon()->String{
         return self.c.weather[0].icon
     }

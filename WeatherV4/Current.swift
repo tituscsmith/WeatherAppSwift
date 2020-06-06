@@ -17,7 +17,7 @@ struct Current: Codable{
     var wind:Wind
     var clouds:Clouds
     var dt:Double = 0
-    var sys:Sys?
+    var sys:Sys
     var timezone:Double = 0
     var id:Int = 0
     var name:String = ""
