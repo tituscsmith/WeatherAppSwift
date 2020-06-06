@@ -23,6 +23,7 @@ class RetrieveData{
   //  var state: Bool = false;
     public func getCurrent(lat: String, lon: String, isF: Bool, city: String){
         var urlString:String = ""
+        print("Retrieving forecast for" + city)
         if(city == ""){
             
             if(isF){
@@ -66,7 +67,7 @@ class RetrieveData{
                 let current = try decoder.decode(Current.self, from: data!)
                 print(current.main.feels_like)
                 semaphore.signal()
-                x = current.main.feels_like
+           //     x = current.main.feels_like
                 self.c = current
             }
             catch let jsonError{
@@ -82,7 +83,7 @@ class RetrieveData{
     public func getForecast(lat: String, lon: String, isF: Bool, city: String){
        var urlString:String = ""
      //  if(city == ""){
-        print("Retrieving forecast")
+        print("Retrieving forecast for" + lat + " " + lon)
            if(isF){
             
                urlString =  "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
@@ -102,17 +103,7 @@ class RetrieveData{
         print("getForeCast called" + lat + " " + lon)
 
         //For five day forecast
-      //  let urlString =  "https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
-        //For one call
-     /*   var urlString = ""
-        if(isF){
-            print("GOT IMPERIAL DATA")
-            urlString = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=imperial&exclude=current,minutely,hourly&appid=52ca258860cc9e61d80b63f12f04beba"
-        }
-        else{
-            print("GOT METRIC DATA")
-             urlString = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=metric&exclude=current,minutely,hourly&appid=52ca258860cc9e61d80b63f12f04beba"
-        }*/
+
         let url = URL(string: urlString)
         
         guard url != nil else{
@@ -170,9 +161,9 @@ class RetrieveData{
       //  return self.d.daily[0].weather[0].description
         return self.c.weather[0].description
     }
-   /* public func getName()->String{
+    public func getName()->String{
         return self.c.name
-    }*/
+    }
     public func getCurrentIcon()->String{
         return self.c.weather[0].icon
     }
@@ -180,7 +171,11 @@ class RetrieveData{
      /*   if(self.d.daily===nil){
             return 0
         }*/
+       // return self.d.daily[dayNumber];
         return self.d.daily[dayNumber];
+    }
+    public func getFutureCoord()->DailyForecast{
+        return self.d
     }
     public func getFutureIcon(dayNumber: Int)->String{
         return self.d.daily[dayNumber].weather[0].icon

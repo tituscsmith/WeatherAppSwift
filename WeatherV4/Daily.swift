@@ -9,8 +9,8 @@
 import Foundation
 //For the One Call API
 struct DailyForecast: Codable{
-    var lat:Double? = 0.0
-    var lon:Double? = 0.0
+    var lat:Double = 0.0
+    var lon:Double = 0.0
     var timezone:String? = ""
     var timezone_offset: Int? = 0
     var daily:[Daily]
