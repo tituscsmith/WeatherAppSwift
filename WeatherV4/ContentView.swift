@@ -44,7 +44,7 @@ struct ContentView: View {
         }
         return
     }
-    public func changeScale() -> String{
+    public func changeScale(){
         print("ChangeScaleCalled")
         //Imperial
         if (!self.showImperial /*&& count>2*/) {
@@ -61,7 +61,7 @@ struct ContentView: View {
              self.rd.getForecast(lat: String(self.rd.getCurrent().coord.lat), lon: String(self.rd.getCurrent().coord.lon), isF: !self.showImperial, city: self.city)
         }
         
-        return ""
+        return
     }
     
     var body: some View {
@@ -160,94 +160,106 @@ struct ContentView: View {
             
             //VStack(alignment: .center){
             ScrollView(.horizontal){//(alignment: .leading)
+                
                 HStack{
-                   // Text("Tomorrow: ")Stacl{
-                    VStack(alignment: .leading) {
-                        Text(info.getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:1).dt))
-                    }
+                        Text(info.getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:1).dt)).multilineTextAlignment(.leading).frame(width: 90)
+               //     Spacer()
                     VStack {
                         Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 1).temp.min))))
                         Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 1).temp.max))));
-                    }
+                    }.frame(width: 80)
                     Image(rd.getFutureIcon(dayNumber:1)).resizable()
                         .frame(width: 50, height: 50).clipShape(Circle())
                        // Spacer()
-                        Text(String(rd.getFutureTemp(dayNumber: 1).weather[0].description));
+                        Text(String(rd.getFutureTemp(dayNumber: 1).weather[0].description)).frame(width: 100);
                     
                     if(rd.getFutureTemp(dayNumber: 1).rain != nil && rd.getFutureTemp(dayNumber: 1).rain! > 0.0){
-                        Text(String(rd.getFutureTemp(dayNumber: 1).rain!) + "mm")
+                        Text(String(rd.getFutureTemp(dayNumber: 1).rain!) + "mm").frame(width: 100)
+                    }
+                    else{
+                        Text("").frame(width: 100)
                     }
                 }
                 HStack {
-                   // Text(getReadableData(timestamp: rd.getFutureTemp(dayNumber:2).dt))
-               //     Text("Two Days Days: ")
-                    Text(info.getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:2).dt))
-          //          Spacer()
+                    Text(info.getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:2).dt)).multilineTextAlignment(.leading).frame(width: 90)
+                    //Spacer()
                     VStack {
                     Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 2).temp.min))))
                     Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 2).temp.max))));
-                   }
+                   }.frame(width: 80)
                       Image(rd.getFutureIcon(dayNumber:2)).resizable()
                                      .frame(width: 50, height: 50).clipShape(Circle())
-                    Text(String(rd.getFutureTemp(dayNumber: 2).weather[0].description));
+                    Text(String(rd.getFutureTemp(dayNumber: 2).weather[0].description)).frame(width: 100);
                     
                     if(rd.getFutureTemp(dayNumber: 2).rain != nil && rd.getFutureTemp(dayNumber: 2).rain! > 0.0){
-                        Text(String(rd.getFutureTemp(dayNumber: 2).rain!) + "mm")
+                        Text(String(rd.getFutureTemp(dayNumber: 2).rain!) + "mm").frame(width: 100)
+                    }
+                    else{
+                        Text("").frame(width: 100)
                     }
                 }
                 HStack {
-                 //   Text("Three Days: ")
-                    Text(info.getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:3).dt))
+                    Text(info.getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:3).dt)).multilineTextAlignment(.leading).frame(width: 90)
                //     Spacer()
                     VStack {
                         Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 3).temp.min))))
                         Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 3).temp.max))));
-                    }
+                    }.frame(width: 80)
                     Image(rd.getFutureIcon(dayNumber:3)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                     
-                    Text(String(rd.getFutureTemp(dayNumber: 3).weather[0].description));
+                    Text(String(rd.getFutureTemp(dayNumber: 3).weather[0].description)).frame(width: 100);
                     
                     if(rd.getFutureTemp(dayNumber: 3).rain != nil && rd.getFutureTemp(dayNumber: 3).rain! > 0.0){
-                        Text(String(rd.getFutureTemp(dayNumber: 3).rain!) + "mm")
+                        Text(String(rd.getFutureTemp(dayNumber: 3).rain!) + "mm").frame(width: 100)
+                    }
+                    else{
+                        Text("").frame(width: 100)
                     }
    
                 }
                 HStack {
                //     Text("Four Days: ")
-                    Text(info.getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:4).dt))
+                    Text(info.getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:4).dt)).multilineTextAlignment(.leading).frame(width: 90)
                   //  Spacer()
                    VStack {
                     Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 4).temp.min))))
                     Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 4).temp.max))));
-                   }
+                   }.frame(width: 80)
                     Image(rd.getFutureIcon(dayNumber:4)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                     
-                    Text(String(rd.getFutureTemp(dayNumber: 4).weather[0].description));
+                    Text(String(rd.getFutureTemp(dayNumber: 4).weather[0].description)).frame(width: 100);
                     
                     if(rd.getFutureTemp(dayNumber: 4).rain != nil && rd.getFutureTemp(dayNumber: 4).rain! > 0.0){
-                        Text(String(rd.getFutureTemp(dayNumber: 4).rain!) + "mm")
+                        Text(String(rd.getFutureTemp(dayNumber: 4).rain!) + "mm").frame(width: 100)
+                    }
+                    else{
+                        Text("").frame(width: 100)
                     }
                 }
                 HStack {
                ///     Text("Five Days: ")
-                    Text(info.getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:5).dt))
+                    Text(info.getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:5).dt)).multilineTextAlignment(.leading)
+                    .frame(width: 90)
              //       Spacer()
                  VStack {
                     Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 5).temp.min))));
                     Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 5).temp.max))));
-                 }
+                 }.frame(width: 80)
                     Image(rd.getFutureIcon(dayNumber:5)).resizable()
                     .frame(width: 50, height: 50).clipShape(Circle())
                     
-                    Text(String(rd.getFutureTemp(dayNumber: 5).weather[0].description));
+                    Text(String(rd.getFutureTemp(dayNumber: 5).weather[0].description)).frame(width: 100);
                     
                     if(rd.getFutureTemp(dayNumber: 5).rain != nil && rd.getFutureTemp(dayNumber: 5).rain! > 0.0){
-                        Text(String(rd.getFutureTemp(dayNumber: 5).rain!) + "mm")
+                        Text(String(rd.getFutureTemp(dayNumber: 5).rain!) + "mm").frame(width: 100)
+                    }
+                    else{
+                        Text("").frame(width: 100)
                     }
                 }
-            }/*.frame(alignment: .leading)*/.padding(.horizontal).font(.subheadline)//.frame(alignment: .leading)//.padding(.horizontal).font(.subheadline)
+            }/*.frame(alignment: .leading).padding(.horizontal)*/.font(.subheadline)//.frame(alignment: .leading)//.padding(.horizontal).font(.subheadline)
 
             Spacer(minLength: 40)
             Text("Scroll for more details").italic()
