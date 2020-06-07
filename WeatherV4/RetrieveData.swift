@@ -12,44 +12,32 @@ import SwiftUI
 class RetrieveData{
 
     //figure out a way to have one variable/initializer
-    var feels_like = 0.0;
-    var wind_speed = 0.0;
-    var description = "Blah";
-    var main = "Blah";
-    var name = "Blah";
+
+    let key = "52ca258860cc9e61d80b63f12f04beba"
+
     var c = Current();
     var f = Forecast();
     var d = DailyForecast();
   //  var state: Bool = false;
     public func getCurrent(lat: String, lon: String, isF: Bool, city: String){
         var urlString:String = ""
-        print("Retrieving forecast for" + city)
+        
+        //Check the units
+        var units = "imperial"
+        if(!isF){
+            units = "metric"
+        }
+        
         if(city == ""){
-            
-            if(isF){
-                urlString =  "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
-            }
-            else{
-                urlString =  "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=metric&appid=52ca258860cc9e61d80b63f12f04beba"
-            }
+            urlString = "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=" + units + "&appid=" + key
         }
         else{
-
-            if(isF){
-                urlString =  "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
-            }
-            else{
-                urlString =  "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=52ca258860cc9e61d80b63f12f04beba"
-            }
-
+             urlString =  "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=" + units + "&appid=" + key
         }
-        
-      //  state = isF
         print("getCurrent called" + city)
         
-        
+    //Make JSON call
     let url = URL(string: urlString)
-    
     guard url != nil else{
         return
     }
@@ -65,9 +53,7 @@ class RetrieveData{
             do{
         
                 let current = try decoder.decode(Current.self, from: data!)
-                print(current.main.feels_like)
                 semaphore.signal()
-           //     x = current.main.feels_like
                 self.c = current
             }
             catch let jsonError{
@@ -82,27 +68,18 @@ class RetrieveData{
 }
     public func getForecast(lat: String, lon: String, isF: Bool, city: String){
        var urlString:String = ""
-     //  if(city == ""){
-        print("Retrieving forecast for" + lat + " " + lon)
-           if(isF){
-            
-               urlString =  "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
-           }
-           else{
-               urlString =  "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=metric&appid=52ca258860cc9e61d80b63f12f04beba"
-           }
-     //  }
-   /*    else{
-           if(isF){
-               urlString =  "https://api.openweathermap.org/data/2.5/onecall?q=" + city + "&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
-           }
-           else{
-               urlString =  "https://api.openweathermap.org/data/2.5/onecall?q=" + city + "&units=metric&appid=52ca258860cc9e61d80b63f12f04beba"
-           }
-       }*/
+       
+        //check temperature units
+        var units = "imperial"
+        if(!isF){
+            units = "metric"
+        }
+
+        urlString =  "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=" + units + "&appid=" + key
+       // print(urlString)
+
         print("getForeCast called" + lat + " " + lon)
 
-        //For five day forecast
 
         let url = URL(string: urlString)
         
@@ -110,6 +87,7 @@ class RetrieveData{
             return
         }
         
+        //Make JSON call
         let session = URLSession.shared
         let semaphore = DispatchSemaphore(value: 0)  //1. create a counting semaphore
         let dataTask = session.dataTask(with: url!){
@@ -119,14 +97,9 @@ class RetrieveData{
             if error == nil && data != nil {
                 let decoder = JSONDecoder()
                 do{
-            
-                    //let forecast = try decoder.decode(Forecast.self, from: data!)
-                 //   print(forecast.main.feels_like)
                     let dailyForecast = try decoder.decode(DailyForecast.self, from: data!)
                     self.d = dailyForecast
                     semaphore.signal()
-                  //  self.f = forecast
-                    
                 }
                 catch let jsonError{
                     print(jsonError)
@@ -158,7 +131,6 @@ class RetrieveData{
         return self.c
     }
     public func getDescription()->String{
-      //  return self.d.daily[0].weather[0].description
         return self.c.weather[0].description
     }
     public func getName()->String{
@@ -168,10 +140,6 @@ class RetrieveData{
         return self.c.weather[0].icon
     }
     public func getFutureTemp(dayNumber:Int)->Daily{
-     /*   if(self.d.daily===nil){
-            return 0
-        }*/
-       // return self.d.daily[dayNumber];
         return self.d.daily[dayNumber];
     }
     public func getFutureCoord()->DailyForecast{
@@ -180,13 +148,6 @@ class RetrieveData{
     public func getFutureIcon(dayNumber: Int)->String{
         return self.d.daily[dayNumber].weather[0].icon
     }
-   /* public func getFutureTemp(hours: Int)->Main{
-        return self.f.list[hours].main;
-    }
-    public func getFutureForecast(hours: Int)->String{
-        print(self.f.list[hours].weather[0].icon)
-        return self.f.list[hours].weather[0].icon;
-    }*/
     
     
 }

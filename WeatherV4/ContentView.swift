@@ -15,17 +15,18 @@ struct ContentView: View {
     @ObservedObject var locationManager = LocationManager();
     @State private var showImperial = true
     @State private var city : String = ""
-    @State private var hiddenTrigger = false
-    @State private var name : String = ""
     private var originCity: String = ""
     let rd = RetrieveData();
     let info = DateTimeCompass();
+    
     init() {
+        //Make initial weather calls
         rd.getCurrent(lat: locationManager.getLat(), lon: locationManager.getLon(), isF: self.showImperial, city: "")
         rd.getForecast(lat: locationManager.getLat(), lon: locationManager.getLon(), isF: self.showImperial, city: "")
         originCity = rd.getName();
     }
-
+    //Function called when city is changed; uses Dispatch queue for concurrency to ensure that
+    //getForecast has the lat/lon from getCurrent since onecall doesn't work with just city names
     public func changeCity(cityString: String){
 
         let group = DispatchGroup()
@@ -44,19 +45,19 @@ struct ContentView: View {
         }
         return
     }
+    
+    //function called on toggle click for temperature scale
     public func changeScale(){
-        print("ChangeScaleCalled")
         //Imperial
         if (!self.showImperial /*&& count>2*/) {
-            print("Imperial = " + String(self.showImperial))
+            //print("Imperial = " + String(self.showImperial))
             rd.getCurrent(lat: locationManager.getLat(), lon: locationManager.getLon(), isF: !self.showImperial, city: self.city)
             rd.getForecast(lat: String(rd.getCurrent().coord.lat), lon: String(rd.getCurrent().coord.lon), isF: !self.showImperial, city: self.city)
         }
             
         //Get Metric Data
         else if(self.showImperial){
-            print("Imperial = " + String(self.showImperial))
-            //Get opposite data
+            //print("Imperial = " + String(self.showImperial))
             self.rd.getCurrent(lat: self.locationManager.getLat(), lon: self.locationManager.getLon(), isF: !self.showImperial, city: self.city)
              self.rd.getForecast(lat: String(self.rd.getCurrent().coord.lat), lon: String(self.rd.getCurrent().coord.lon), isF: !self.showImperial, city: self.city)
         }
@@ -145,8 +146,6 @@ struct ContentView: View {
                 
                 Text(rd.getTemp()).font(.title)
                 Text(rd.getDescription()).font(.subheadline)
-        //        Text(String(rd.getCurrent().coord.lat))
-       //         Text(String(self.rd.getFutureCoord().lat))
             }
   
             HStack(alignment: .center, spacing: 10){
@@ -219,7 +218,6 @@ struct ContentView: View {
    
                 }
                 HStack {
-               //     Text("Four Days: ")
                     Text(info.getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:4).dt)).multilineTextAlignment(.leading).frame(width: 90)
                   //  Spacer()
                    VStack {
@@ -259,7 +257,7 @@ struct ContentView: View {
                         Text("").frame(width: 100)
                     }
                 }
-            }/*.frame(alignment: .leading).padding(.horizontal)*/.font(.subheadline)//.frame(alignment: .leading)//.padding(.horizontal).font(.subheadline)
+            }/*.frame(alignment: .leading).padding(.horizontal)*/.font(.subheadline)
 
             Spacer(minLength: 40)
             Text("Scroll for more details").italic()
@@ -267,14 +265,13 @@ struct ContentView: View {
 
             HStack{
                 VStack(alignment: .leading){
-                  //  Text("Sunrise: " + String(getDateFromTimeStamp(timeStamp: rd.getCurrent().sys.sunrise)))
                     Text("Sunrise: " + info.getReadableDate(timeStamp:rd.getCurrent().sys.sunrise))
                     Spacer()
                     Text("Humidity: " + String(rd.getHumidity()) + "%")
                     Spacer()
                     
                     //Wind in moth time units
-                    if !showImperial{
+                    if showImperial{
                         Text(info.compassDirection(heading: Double(rd.getWind().deg ?? -1)) + " " + String(rd.getWind().speed) + " mph")
                     }
                     else{
@@ -282,7 +279,6 @@ struct ContentView: View {
                     }
                 }
                 VStack(alignment: .trailing){
-             //       Text("Sunrise: " + String(getDateFromTimeStamp(timeStamp: rd.getCurrent().sys.sunset)))
                     Text("Sunrise: " + info.getReadableDate(timeStamp:rd.getCurrent().sys.sunset))
                     Spacer()
                     

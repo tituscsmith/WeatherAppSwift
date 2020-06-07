@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+//This class uses outside functions to get the date in terms of days of the week
 class DateTimeCompass{
     //https://medium.com/quick-code/easy-timestamp-to-readable-date-converter-5b93959a3cf9
     func getReadableDate(timeStamp: TimeInterval) -> String {
@@ -40,7 +40,7 @@ class DateTimeCompass{
     //https://stackoverflow.com/questions/48118390/how-to-use-swift-to-convert-direction-degree-to-text
     func compassDirection(heading : Double) -> String {
         if heading < 0 { return "X" }
-        print("Heading: " + String(heading))
+        //print("Heading: " + String(heading))
         let directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
         let index = Int((heading + 22.5) / 45.0) & 7
         return directions[index]
