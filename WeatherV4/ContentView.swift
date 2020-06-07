@@ -260,7 +260,7 @@ struct ContentView: View {
             }/*.frame(alignment: .leading).padding(.horizontal)*/.font(.subheadline)
 
             Spacer(minLength: 40)
-            Text("Scroll for more details").italic()
+            Text("Scroll for more details\n").bold()
             Spacer(minLength: 10)
 
             HStack{
@@ -281,12 +281,22 @@ struct ContentView: View {
                 VStack(alignment: .trailing){
                     Text("Sunrise: " + info.getReadableDate(timeStamp:rd.getCurrent().sys.sunset))
                     Spacer()
-                    
-                    Text("Visibility: " + String(rd.getCurrent().visibility ?? -1) + "m")
-                    Spacer()
                     Text("Feels like: " + rd.getFeelsLike())
+                    Spacer()
+                    if(rd.getCurrent().visibility != nil){
+                        Text("Visibility: " + String(rd.getCurrent().visibility ?? -1) + "m")
+                    }
+                    
+                    
+                    
                 }
             }
+            VStack{
+                Text("\n\n\nTitus Smith - June 2020").italic()
+                Text("Version 1.1.1").italic()
+                }.frame(alignment: .center)
+            
+            //.italic()//.frame(alignment: .center)
         }.background(Color(red: 214 / 255, green: 252 / 255, blue: 255 / 255).edgesIgnoringSafeArea(.all))
         
     }
