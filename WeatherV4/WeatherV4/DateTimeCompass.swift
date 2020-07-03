@@ -1,0 +1,55 @@
+//
+//  DateTimeCompass.swift
+//  WeatherV4
+//
+//  Created by Titus Smith on 6/6/20.
+//  Copyright © 2020 Titus Smith. All rights reserved.
+//
+
+import Foundation
+//This class uses outside functions to get the date in terms of days of the week
+class DateTimeCompass{
+    //https://medium.com/quick-code/easy-timestamp-to-readable-date-converter-5b93959a3cf9
+    
+    //Paramters: dt, exact time, and whether or not we care about the day
+    func getReadableDate(timeStamp: TimeInterval, exact: Bool, day: Bool) -> String {
+        let date = Date(timeIntervalSince1970: timeStamp)
+        let dateFormatter = DateFormatter()
+        
+        if (Calendar.current.isDateInTomorrow(date) && day==true){
+            return "Tomorrow"
+        } else if Calendar.current.isDateInYesterday(date) {
+            return "Yesterday"
+        } else if dateFallsInCurrentWeek(date: date) {
+            if (Calendar.current.isDateInToday(date) || day == false){
+                if(exact){
+                    dateFormatter.dateFormat = "h:mm a"
+                }
+                else{
+                    dateFormatter.dateFormat = "ha"
+                }
+                return dateFormatter.string(from: date)
+            } else {
+                dateFormatter.dateFormat = "EEEE"
+                return dateFormatter.string(from: date)
+            }
+        } else {
+            dateFormatter.dateFormat = "MMM d"
+            return dateFormatter.string(from: date)
+        }
+    }
+
+    func dateFallsInCurrentWeek(date: Date) -> Bool {
+        let currentWeek = Calendar.current.component(Calendar.Component.weekOfYear, from: Date())
+        let datesWeek = Calendar.current.component(Calendar.Component.weekOfYear, from: date)
+        return (currentWeek == datesWeek)
+    }
+    //https://stackoverflow.com/questions/48118390/how-to-use-swift-to-convert-direction-degree-to-text
+    func compassDirection(heading : Double) -> String {
+        if heading < 0 { return "X" }
+        //print("Heading: " + String(heading))
+        let directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+        let index = Int((heading + 22.5) / 45.0) & 7
+        return directions[index]
+    }
+}

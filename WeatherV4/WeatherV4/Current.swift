@@ -13,7 +13,7 @@ struct Current: Codable{
     var weather:[Weather]
     var base:String = ""
     var main:Main
-    var visibility:Int = 0
+    var visibility:Int? = 0
     var wind:Wind
     var clouds:Clouds
     var dt:Double = 0

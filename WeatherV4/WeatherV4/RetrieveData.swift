@@ -12,27 +12,35 @@ import SwiftUI
 class RetrieveData{
 
     //figure out a way to have one variable/initializer
-    var feels_like = 0.0;
-    var wind_speed = 0.0;
-    var description = "Blah";
-    var main = "Blah";
-    var name = "Blah";
+
+    let key = "52ca258860cc9e61d80b63f12f04beba"
+
     var c = Current();
     var f = Forecast();
     var d = DailyForecast();
-    public func getCurrent(lat: String, lon: String, isF: Bool){
-   print("getCurrent called" + String(isF))
-   /* let urlString = "https://api.openweathermap.org/data/2.5/weather?q=Madison,WI,USA&units=imperial&apikey=52ca258860cc9e61d80b63f12f04beba"*/
+    var h = HourlyForecast();
+    var o = Onecall();
+  //  var state: Bool = false;
+    public func getCurrent(lat: String, lon: String, isF: Bool, city: String){
         var urlString:String = ""
-        if(isF){
-            urlString =  "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+        print("getting current");
+
+        //Check the units
+        var units = "imperial"
+        if(!isF){
+            units = "metric"
+        }
+        
+        if(city == ""){
+            urlString = "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=" + units + "&appid=" + key
         }
         else{
-            urlString =  "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=metric&appid=52ca258860cc9e61d80b63f12f04beba"
+             urlString =  "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=" + units + "&appid=" + key
         }
-   // let urlString =    "https://api.openweathermap.org/data/2.5/weather?lat=43.07&lon=-89.43&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
+        print("getCurrent called" + city)
+        
+    //Make JSON call
     let url = URL(string: urlString)
-    
     guard url != nil else{
         return
     }
@@ -48,9 +56,7 @@ class RetrieveData{
             do{
         
                 let current = try decoder.decode(Current.self, from: data!)
-                print(current.main.feels_like)
                 semaphore.signal()
-                x = current.main.feels_like
                 self.c = current
             }
             catch let jsonError{
@@ -63,27 +69,29 @@ class RetrieveData{
     dataTask.resume()
     semaphore.wait()//wait for networking session
 }
-    public func getForecast(lat: String, lon: String, isF: Bool){
+    public func getForecast(lat: String, lon: String, isF: Bool, city: String){
+       var urlString:String = ""
+       print("getting forecase");
+
+        //check temperature units
+        var units = "imperial"
+        if(!isF){
+            units = "metric"
+        }
+
+        urlString =  "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=" + units + "&appid=" + key
+       // print(urlString)
+
         print("getForeCast called" + lat + " " + lon)
 
-        //For five day forecast
-      //  let urlString =  "https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=imperial&appid=52ca258860cc9e61d80b63f12f04beba"
-        //For one call
-        var urlString = ""
-        if(isF){
-            print("GOT IMPERIAL DATA")
-            urlString = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=imperial&exclude=current,minutely,hourly&appid=52ca258860cc9e61d80b63f12f04beba"
-        }
-        else{
-            print("GOT METRIC DATA")
-             urlString = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&units=metric&exclude=current,minutely,hourly&appid=52ca258860cc9e61d80b63f12f04beba"
-        }
+
         let url = URL(string: urlString)
         
         guard url != nil else{
             return
         }
         
+        //Make JSON call
         let session = URLSession.shared
         let semaphore = DispatchSemaphore(value: 0)  //1. create a counting semaphore
         let dataTask = session.dataTask(with: url!){
@@ -93,14 +101,11 @@ class RetrieveData{
             if error == nil && data != nil {
                 let decoder = JSONDecoder()
                 do{
-            
-                    //let forecast = try decoder.decode(Forecast.self, from: data!)
-                 //   print(forecast.main.feels_like)
-                    let dailyForecast = try decoder.decode(DailyForecast.self, from: data!)
-                    self.d = dailyForecast
+//                    let dailyForecast = try decoder.decode(DailyForecast.self, from: data!)
+//                    self.d = dailyForecast
+                    let onecall = try decoder.decode(Onecall.self, from: data!)
+                    self.o = onecall
                     semaphore.signal()
-                  //  self.f = forecast
-                    
                 }
                 catch let jsonError{
                     print(jsonError)
@@ -128,34 +133,35 @@ class RetrieveData{
         return self.c.weather[0].main
     }
     public func getCurrent()->Current{
+     //   print("City: " + self.c.name)
         return self.c
     }
     public func getDescription()->String{
-      //  return self.d.daily[0].weather[0].description
         return self.c.weather[0].description
     }
-   /* public func getName()->String{
+    public func getName()->String{
         return self.c.name
-    }*/
+    }
     public func getCurrentIcon()->String{
         return self.c.weather[0].icon
     }
-    public func getFutureTemp(dayNumber:Int)->Daily{
-     /*   if(self.d.daily===nil){
-            return 0
-        }*/
-        return self.d.daily[dayNumber];
+    public func getFutureTemp(dayNumber:Int)->DailyForecast{
+        return self.o.daily[dayNumber];
     }
+    public func getFuture()->Onecall{
+        return self.o
+    }
+ 
+//    public func getFutureIcon(dayNumber: Int)->String{
+//        return self.d.daily[dayNumber].weather[0].icon
+//    }
+//
     public func getFutureIcon(dayNumber: Int)->String{
-        return self.d.daily[dayNumber].weather[0].icon
+        return self.o.daily[dayNumber].weather[0].icon;
     }
-   /* public func getFutureTemp(hours: Int)->Main{
-        return self.f.list[hours].main;
-    }
-    public func getFutureForecast(hours: Int)->String{
-        print(self.f.list[hours].weather[0].icon)
-        return self.f.list[hours].weather[0].icon;
-    }*/
-    
-    
+    public func getHourly(hourNumber: Int)->HourlyForecast{
+        //   print("City: " + self.c.name)
+        return self.o.hourly[hourNumber];
+       // self.o.hourly.hour
+       }
 }

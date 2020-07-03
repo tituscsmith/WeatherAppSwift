@@ -11,94 +11,60 @@ import SwiftUI
 import MapKit
 import CoreLocation
 
-/*class DateFormatter : Formatter{
-    
-}*/
-
-
 struct ContentView: View {
     @ObservedObject var locationManager = LocationManager();
-    @State private var showImperial = false
+    @State private var showImperial = true
+    @State private var city : String = ""
+    private var originCity: String = ""
     let rd = RetrieveData();
-  //  @State private var imageName2 : String = "light-rain";
+    let info = DateTimeCompass();
+    let count = 0...23;
+    
     init() {
-        print(locationManager.getLat())
-        print(locationManager.getLon())
-        //rd.getCurrent(lat: locationManager.getLat(), lon: locationManager.getLon(), showImperial)
-        //rd.getForecast(lat: locationManager.getLat(), lon: locationManager.getLon(), showImperial)
-        rd.getCurrent(lat: locationManager.getLat(), lon: locationManager.getLon(), isF: self.showImperial)
-        rd.getForecast(lat: locationManager.getLat(), lon: locationManager.getLon(), isF: self.showImperial)
+        //Make initial weather calls
+        rd.getCurrent(lat: locationManager.getLat(), lon: locationManager.getLon(), isF: self.showImperial, city: "")
+        rd.getForecast(lat: locationManager.getLat(), lon: locationManager.getLon(), isF: self.showImperial, city: "")
+        originCity = rd.getName();
     }
     
-    //https://medium.com/quick-code/easy-timestamp-to-readable-date-converter-5b93959a3cf9
-    func getReadableDate(timeStamp: TimeInterval) -> String {
-        let date = Date(timeIntervalSince1970: timeStamp)
-        let dateFormatter = DateFormatter()
-        
-        if Calendar.current.isDateInTomorrow(date) {
-            return "Tomorrow"
-        } else if Calendar.current.isDateInYesterday(date) {
-            return "Yesterday"
-        } else if dateFallsInCurrentWeek(date: date) {
-            if Calendar.current.isDateInToday(date) {
-                dateFormatter.dateFormat = "h:mm a"
-                return dateFormatter.string(from: date)
-            } else {
-                dateFormatter.dateFormat = "EEEE"
-                return dateFormatter.string(from: date)
-            }
-        } else {
-            dateFormatter.dateFormat = "MMM d"
-            return dateFormatter.string(from: date)
+    //Function called when city is changed; uses Dispatch queue for concurrency to ensure that
+    //getForecast has the lat/lon from getCurrent since onecall doesn't work with just city names
+    public func changeCity(cityString: String){
+
+        let group = DispatchGroup()
+         group.enter()
+ 
+        // avoid deadlocks by not using .main queue here
+        DispatchQueue.main.async {
+           self.rd.getCurrent(lat: self.locationManager.getLat(), lon: self.locationManager.getLon(), isF: self.showImperial, city: cityString);
+             group.leave()
         }
+        group.notify(queue: .main) {
+          //  print("Coords: " + String(self.rd.getCurrent().coord.lat) + " " + String(self.rd.getCurrent().coord.lon))
+            self.rd.getForecast(lat: String(self.rd.getCurrent().coord.lat), lon: String(self.rd.getCurrent().coord.lon), isF: self.showImperial, city: cityString)
+           // print("Coords after: " + String(self.rd.getFutureCoord().lat))
+            self.city = cityString;//Update state after rd has been updated
+        }
+        return
     }
-
-    func dateFallsInCurrentWeek(date: Date) -> Bool {
-        let currentWeek = Calendar.current.component(Calendar.Component.weekOfYear, from: Date())
-        let datesWeek = Calendar.current.component(Calendar.Component.weekOfYear, from: date)
-        return (currentWeek == datesWeek)
-    }
-   /* func getDateFromTimeStamp(timeStamp : Double) -> String {
-
-        let date = NSDate(timeIntervalSince1970: timeStamp)
-
-        let dayTimePeriodFormatter = DateFormatter()
-      //  dayTimePeriodFormatter.dateFormat = "dd MMM YY, hh:mm a"
-     // UnComment below to get only time
-      dayTimePeriodFormatter.dateFormat = "hh:mm a"
-
-        let dateString = dayTimePeriodFormatter.string(from: date as Date)
-        return dateString
-    }*/
-    //https://stackoverflow.com/questions/48118390/how-to-use-swift-to-convert-direction-degree-to-text
-    func compassDirection(heading : Double) -> String {
-        if heading < 0 { return "" }
-        print("Heading: " + String(heading))
-        let directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-        let index = Int((heading + 22.5) / 45.0) & 7
-        return directions[index]
-    }
-    public func changeScale() -> String{
-
+    
+    //function called on toggle click for temperature scale
+    public func changeScale(){
         //Imperial
         if (!self.showImperial /*&& count>2*/) {
-            print("if")
-            print("Imperial = " + String(self.showImperial))
-            rd.getCurrent(lat: locationManager.getLat(), lon: locationManager.getLon(), isF: !self.showImperial)
-            rd.getForecast(lat: locationManager.getLat(), lon: locationManager.getLon(), isF: !self.showImperial)
-            
+            //print("Imperial = " + String(self.showImperial))
+            rd.getCurrent(lat: locationManager.getLat(), lon: locationManager.getLon(), isF: !self.showImperial, city: self.city)
+            rd.getForecast(lat: String(rd.getCurrent().coord.lat), lon: String(rd.getCurrent().coord.lon), isF: !self.showImperial, city: self.city)
         }
             
         //Get Metric Data
         else if(self.showImperial){
-            print("else")
-            print("Imperial = " + String(self.showImperial))
-            //Get opposite data
-            rd.getCurrent(lat: locationManager.getLat(), lon: locationManager.getLon(), isF: !self.showImperial)
-            rd.getForecast(lat: locationManager.getLat(), lon: locationManager.getLon(), isF: !self.showImperial)
+            //print("Imperial = " + String(self.showImperial))
+            self.rd.getCurrent(lat: self.locationManager.getLat(), lon: self.locationManager.getLon(), isF: !self.showImperial, city: self.city)
+             self.rd.getForecast(lat: String(self.rd.getCurrent().coord.lat), lon: String(self.rd.getCurrent().coord.lon), isF: !self.showImperial, city: self.city)
         }
-        else{return ""}
-        return ""
+        
+        return
     }
     
     var body: some View {
@@ -106,159 +72,164 @@ struct ContentView: View {
         //Check that location doesn't have an error
        // VStack(alignment: .center) {
         ScrollView(.vertical){
+            
+            HStack{
+                Text("Change City (Hold)").italic().padding()
+                .contextMenu {
+                    Button(action: {
+                        self.city = self.originCity;
+                    }) {
+                        Text("Original Location")
+                    }
+                    
+                    Button(action: {
+                        self.changeCity(cityString: "Ottawa")
+                    }) {
+                        Text("Ottawa")
+                    }
+                    Button(action: {
+                        self.changeCity(cityString: "Chicago")
+                    }) {
+                        Text("Chicago")
+                    }
+                    Button(action: {
+                        self.changeCity(cityString: "Paris")
+                    }) {
+                        Text("Paris")
+                    }
+                    Button(action: {
+                        self.changeCity(cityString: "Beijing")
+                    }) {
+                        Text("Beijing")
+                    }
+                    Button(action: {
+                        self.changeCity(cityString: "Sydney")
+
+                    }) {
+                        Text("Sydney")
+                    }
+                    Button(action: {
+                        self.changeCity(cityString: "Seattle")
+                    }) {
+                        Text("Seattle")
+                    }
+                    Button(action: {
+                        self.changeCity(cityString: "Houston")
+                    }) {
+                        Text("Houston")
+                    }
+                    Button(action: {
+                        self.changeCity(cityString: "Miami")
+                    }) {
+                        Text("Miami")
+                    }
+                }
+                //Picker or Search Bar?
+                
             //Celcius
             Toggle(isOn: $showImperial) {
                 Text("").font(.subheadline).padding()
-            }.padding(.horizontal)//.frame(width: 125/*, alignment: .trailing*/)//.padding()//FIX ALIGNMENT
-            if showImperial {
-                //Fake text methods to change the scales
-                Text("\(self.changeScale())").hidden().frame(width: 0, height: 0)
+                }.padding(.horizontal).onTapGesture {
+                print("Temp has been toggled")
+                self.changeScale()
+                }//.frame(width: 125/*, alignment: .trailing*/)//.padding()//FIX ALIGNMENT
             }
-            else{
-                Text("\(self.changeScale())").hidden().frame(width: 0, height: 0)
-            }
-            //Spacer()
-            Spacer(minLength: 40)
+        
+
+            Spacer(minLength: 25)
             VStack{
-           //     Spacer(min100)
-                Text(rd.getCurrent().name).font(.largeTitle)
+
+                if(city != ""){Text(city).font(.largeTitle)}
+               else{Text(originCity).font(.largeTitle)}
+                
                 Text(rd.getTemp()).font(.title)
                 Text(rd.getDescription()).font(.subheadline)
-
-            //    Text("Feels like: " + rd.getFeelsLike())
             }
   
-            HStack(alignment: .center, spacing: 10){
+            HStack(alignment: .center){
                 Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 0).temp.min)))).foregroundColor(.blue);
                 Image(rd.getCurrentIcon()).resizable()
                 .frame(width: 75, height: 75).clipShape(Circle())
                 Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 0).temp.max)))).foregroundColor(.red);
                 }.font(.title)
-            
-            
-            //VStack(alignment: .center){
-            ScrollView(.horizontal){//(alignment: .leading)
-                
-                HStack{
-                   // Text("Tomorrow: ")
-                    Text(getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:1).dt))
-           //         Spacer()
-                    VStack {
-                        //    Text("Titus")
-                        Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 1).temp.min))))
-                        Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 1).temp.max))));
-                    }
-                    Image(rd.getFutureIcon(dayNumber:1)).resizable()
-                        .frame(width: 50, height: 50).clipShape(Circle())
-                       // Spacer()
-                        Text(String(rd.getFutureTemp(dayNumber: 1).weather[0].description));
-                    
-                    if(rd.getFutureTemp(dayNumber: 1).rain != nil && rd.getFutureTemp(dayNumber: 1).rain! > 0.0){
-                        Text(String(rd.getFutureTemp(dayNumber: 1).rain!) + "mm")
-                    }
-                }
-                HStack {
-                   // Text(getReadableData(timestamp: rd.getFutureTemp(dayNumber:2).dt))
-               //     Text("Two Days Days: ")
-                    Text(getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:2).dt))
-          //          Spacer()
-                    VStack {
-                    Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 2).temp.min))))
-                    Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 2).temp.max))));
-                   }
-                      Image(rd.getFutureIcon(dayNumber:2)).resizable()
-                                     .frame(width: 50, height: 50).clipShape(Circle())
-                    Text(String(rd.getFutureTemp(dayNumber: 2).weather[0].description));
-                    
-                    if(rd.getFutureTemp(dayNumber: 2).rain != nil && rd.getFutureTemp(dayNumber: 2).rain! > 0.0){
-                        Text(String(rd.getFutureTemp(dayNumber: 2).rain!) + "mm")
-                    }
-                }
-                HStack {
-                 //   Text("Three Days: ")
-                    Text(getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:3).dt))
-               //     Spacer()
-                    VStack {
-                        Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 3).temp.min))))
-                        Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 3).temp.max))));
-                    }
-                    Image(rd.getFutureIcon(dayNumber:3)).resizable()
-                    .frame(width: 50, height: 50).clipShape(Circle())
-                    
-                    Text(String(rd.getFutureTemp(dayNumber: 3).weather[0].description));
-                    
-                    if(rd.getFutureTemp(dayNumber: 3).rain != nil && rd.getFutureTemp(dayNumber: 3).rain! > 0.0){
-                        Text(String(rd.getFutureTemp(dayNumber: 3).rain!) + "mm")
-                    }
-   
-                }
-                HStack {
-               //     Text("Four Days: ")
-                    Text(getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:4).dt))
-                  //  Spacer()
-                   VStack {
-                    Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 4).temp.min))))
-                    Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 4).temp.max))));
-                   }
-                    Image(rd.getFutureIcon(dayNumber:4)).resizable()
-                    .frame(width: 50, height: 50).clipShape(Circle())
-                    
-                    Text(String(rd.getFutureTemp(dayNumber: 4).weather[0].description));
-                    
-                    if(rd.getFutureTemp(dayNumber: 4).rain != nil && rd.getFutureTemp(dayNumber: 4).rain! > 0.0){
-                        Text(String(rd.getFutureTemp(dayNumber: 4).rain!) + "mm")
-                    }
-                }
-                HStack {
-               ///     Text("Five Days: ")
-                    Text(getReadableDate(timeStamp:rd.getFutureTemp(dayNumber:5).dt))
-             //       Spacer()
-                 VStack {
-                    Text("Low: " + String(Int(round(rd.getFutureTemp(dayNumber: 5).temp.min))));
-                    Text("High: " + String(Int(round(rd.getFutureTemp(dayNumber: 5).temp.max))));
-                 }
-                    Image(rd.getFutureIcon(dayNumber:5)).resizable()
-                    .frame(width: 50, height: 50).clipShape(Circle())
-                    
-                    Text(String(rd.getFutureTemp(dayNumber: 5).weather[0].description));
-                    
-                    if(rd.getFutureTemp(dayNumber: 5).rain != nil && rd.getFutureTemp(dayNumber: 5).rain! > 0.0){
-                        Text(String(rd.getFutureTemp(dayNumber: 5).rain!) + "mm")
-                    }
-                }
-            }.padding(.horizontal).font(.subheadline)
-            Spacer(minLength: 40)
-            Text("Scroll for more details")
-            Spacer(minLength: 10)
 
-            HStack{
-                VStack(alignment: .leading){
-                  //  Text("Sunrise: " + String(getDateFromTimeStamp(timeStamp: rd.getCurrent().sys.sunrise)))
-                    Text("Sunrise: " + getReadableDate(timeStamp:rd.getCurrent().sys.sunrise))
-                    Spacer()
-                    Text("Humidity: " + String(rd.getHumidity()) + "%")
-                    Spacer()
-                    
-                    //Wind
-                    if !showImperial{
-                     //   Text(rd.getWind().speed + " mph winds") }//ADD THE DIRECTION
-                        Text(/*"Wind: " + */compassDirection(heading: Double(rd.getWind().deg)) + " " + String(rd.getWind().speed) + " mph")
-                        
-                    }
-                    else{
-                        Text(/*"Wind: " + */compassDirection(heading: Double(rd.getWind().deg)) + " " + String(rd.getWind().speed) + " kph")
+            ScrollView(.horizontal){
+                Divider()
+                HStack{
+                    ForEach(0 ..< 23) { hour in
+                        VStack {
+                            Text(self.info.getReadableDate(timeStamp:self.rd.getHourly(hourNumber: hour).dt, exact: false, day: false));
+                            Text(String(Int(round(self.rd.getHourly(hourNumber: hour).temp))));
+                           // Divider()
+                            Image(self.rd.getHourly(hourNumber: hour).weather[0].icon).resizable()
+                                                     .frame(width: 50, height: 50).clipShape(Circle())
+                             }.frame(width: 50)
+                            // Divider()
+
                     }
                 }
-                VStack(alignment: .trailing){
-             //       Text("Sunrise: " + String(getDateFromTimeStamp(timeStamp: rd.getCurrent().sys.sunset)))
-                    Text("Sunrise: " + getReadableDate(timeStamp:rd.getCurrent().sys.sunset))
-                    Spacer()
-                    Text("Visibility: " + String(rd.getCurrent().visibility) + "m")
-                    Spacer()
-                    Text("Feels like: " + rd.getFeelsLike())
-                }
+                Divider()
             }
-        }
+                
+            VStack{//(alignment: .leading)
+                ForEach(1 ..< 6) { day in
+                       HStack{
+                        Text(self.info.getReadableDate(timeStamp:self.rd.getFutureTemp(dayNumber:day).dt, exact: false, day: true)).multilineTextAlignment(.leading).frame(width: 90)
+                       //     Spacer()
+                            VStack {
+                                Text("Low: " + String(Int(round(self.rd.getFutureTemp(dayNumber: day).temp.min))))
+                                Text("High: " + String(Int(round(self.rd.getFutureTemp(dayNumber: day).temp.max))));
+                            }.frame(width: 80)
+                        Image(self.rd.getFutureIcon(dayNumber:day)).resizable()
+                                .frame(width: 50, height: 50).clipShape(Circle())
+                               // Spacer()
+                        Text(String(self.rd.getFutureTemp(dayNumber: day).weather[0].description)).frame(width: 100);
+
+                        }
+                }
+            }/*.frame(alignment: .leading).padding(.horizontal)*/.font(.subheadline)
+
+            Spacer(minLength: 40)
+            Text("Scroll for more details\n").bold()
+            Spacer(minLength: 10)
+            
+            VStack{
+                HStack{
+                    VStack(alignment: .leading){
+                        //Get exact time
+                        Text("Sunrise: " + info.getReadableDate(timeStamp:rd.getCurrent().sys.sunrise, exact: true, day: false))
+                        Spacer()
+                        Text("Humidity: " + String(rd.getHumidity()) + "%")
+                        Spacer()
+                        
+                        //Wind in moth time units
+                        if showImperial{
+                            Text(info.compassDirection(heading: Double(rd.getWind().deg ?? -1)) + " " + String(rd.getWind().speed) + " mph")
+                        }
+                        else{
+                            Text(info.compassDirection(heading: Double(rd.getWind().deg ?? -1)) + " " + String(rd.getWind().speed) + " kph")
+                        }
+                    }
+                    VStack(alignment: .trailing){
+                        Text("Sunrise: " + info.getReadableDate(timeStamp:rd.getCurrent().sys.sunset, exact: true, day: false))
+                        Spacer()
+                        Text("Feels like: " + rd.getFeelsLike())
+                        Spacer()
+                        if(rd.getCurrent().visibility != nil){
+                            Text("Visibility: " + String(rd.getCurrent().visibility ?? -1) + "m")
+                        }
+                    }
+                }
+                //Footer
+                Text("\n\n\nTitus Smith - July 2020").italic()
+                Text("Version 1.1.1").italic()
+            }
+//                         Text("\n\n\nTitus Smith - June 2020").italic()
+//                         Text("Version 1.1.2").italic()
+            
+            
+            //.italic()//.frame(alignment: .center)
+    }.background(Color(red: 214 / 255, green: 252 / 255, blue: 255 / 255).edgesIgnoringSafeArea(.all))
     }
 }
 
